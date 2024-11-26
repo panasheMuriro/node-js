@@ -1,4 +1,4 @@
 # Node JS Concepts and Apps
 
-## Desscription
+## Description
 This repo is focused on the concepts of Node JS with emphasis on backend development
