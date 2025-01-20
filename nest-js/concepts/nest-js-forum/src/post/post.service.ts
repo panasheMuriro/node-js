@@ -40,4 +40,8 @@ export class PostService {
       relations: ['comments', 'user'],
     });
   }
+
+  async updatePost(post: Post): Promise<Post> {
+    return this.postRepository.save(post);
+  }
 }

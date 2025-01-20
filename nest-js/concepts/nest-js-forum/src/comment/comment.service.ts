@@ -23,7 +23,10 @@ export class CommentService {
       throw new Error('Post not found');
     }
 
-    const comment = this.commentRepository.create({ content, post });
+    const comment = this.commentRepository.create({ content, post, userId });
+    post.commentCount += 1;
+    await this.postService.updatePost(post);
+
     return this.commentRepository.save(comment);
   }
 
