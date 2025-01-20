@@ -4,9 +4,14 @@ import { PostService } from './post.service';
 import { Post } from './post.entity';
 import { CommentModule } from '../comment/comment.module';
 import { PostController } from './post.controlller';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Post]), forwardRef(() => CommentModule)],
+  imports: [
+    TypeOrmModule.forFeature([Post]),
+    forwardRef(() => CommentModule),
+    UserModule,
+  ],
   providers: [PostService],
   exports: [PostService], // Ensure PostService is exported
   controllers: [PostController],
