@@ -25,6 +25,7 @@ import { EnrollmentModule } from './enrollment/enrollment.module';
 import { Student } from './student/student.entity';
 import { Course } from './course/course.entity';
 import { Enrollment } from './enrollment/enrollment.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { Enrollment } from './enrollment/enrollment.entity';
       logging: true, // Enables logging queries for debugging
     }),
     StudentModule,
+    AuthModule,
     CourseModule,
     EnrollmentModule,
   ],

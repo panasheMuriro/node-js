@@ -10,10 +10,11 @@ export class Student {
   name: string;
 
   @Column()
+  password: string;
+
+  @Column()
   email: string;
 
-  @OneToMany(() => Enrollment, (enrollment) => enrollment.student, {
-    eager: true,
-  })
+  @OneToMany(() => Enrollment, (enrollment) => enrollment.student)
   enrollments: Enrollment[];
 }

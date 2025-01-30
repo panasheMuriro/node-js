@@ -20,6 +20,24 @@ export class CourseService {
   }
 
   async getCourseById(id: number): Promise<Course | undefined> {
-    return this.courseRepository.findOne({ where: { id } });
+    return this.courseRepository.findOne({
+      where: { id },
+      // relations: ['enrollments.student'],
+      relations: ['enrollments.student'],
+      // select: {
+      //   id: true,
+      //   name: true,
+      //   description: true,
+      //   enrollments: {
+      //     id: true, // Keep enrollment id if needed
+      //     student: {
+      //       id: true,
+      //       name: true,
+      //       email: true,
+      //       enrollments: false,
+      //     },
+      //   },
+      // },
+    });
   }
 }

@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CourseService } from './course.service';
+import { Course } from './course.entity';
 
 @Controller('courses')
 export class CourseController {
@@ -13,5 +14,10 @@ export class CourseController {
   @Get()
   async getAllCourses() {
     return this.courseService.getAllCourses();
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: number): Promise<Course> {
+    return this.courseService.getCourseById(id);
   }
 }
