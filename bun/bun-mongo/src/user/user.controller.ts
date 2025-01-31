@@ -1,3 +1,4 @@
+import type { Context } from "hono";
 import { UserService } from "./user.service";
 
 export class UserController {
@@ -24,10 +25,10 @@ export class UserController {
     });
   }
 
-  async createUser(req: Request) {
+  async createUser(c: Context) {
     // Get the body as text and parse it as JSON
     // console.log(req.body);
-    const body = await req.json();
+    const body = await c.req.json();
     console.log(body)
     const { name } = body;
     const newUser = await this.userService.createUser(name);
