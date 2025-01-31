@@ -1,6 +1,5 @@
 import type { Context } from "hono";
 import { UserService } from "./user.service";
-
 export class UserController {
   private userService: UserService;
 
@@ -8,33 +7,33 @@ export class UserController {
     this.userService = new UserService();
   }
 
-  async getUsers() {
-    const users = await this.userService.getUsers();
-    return new Response(JSON.stringify(users), {
-      headers: { "Content-Type": "application/json" },
-    });
-  }
-
-  async getUserById(id: string) {
-    const user = await this.userService.getUserById(id);
-    if (!user) {
-      return new Response("User not found", { status: 404 });
-    }
-    return new Response(JSON.stringify(user), {
-      headers: { "Content-Type": "application/json" },
-    });
-  }
-
   async createUser(c: Context) {
-    // Get the body as text and parse it as JSON
-    // console.log(req.body);
-    const body = await c.req.json();
-    console.log(body)
-    const { name } = body;
-    const newUser = await this.userService.createUser(name);
-    return new Response(JSON.stringify(newUser), {
-      status: 201,
-      headers: { "Content-Type": "application/json" },
-    });
+    const userData = await c.req.json();
+    const user = await this.userService.createUser(userData);
+    return c.json(user, 201);
+  }
+
+  async getUserById(c: Context) {
+    const id = c.req.param('id');
+    const user = await this.userService.getUserById(id);
+    return user ? c.json(user) : c.json({ message: 'User not found' }, 404);
+  }
+
+  async getAllUsers(c: Context) {
+    const users = await this.userService.getAllUsers();
+    return c.json(users);
+  }
+
+  async updateUser(c: Context) {
+    const id = c.req.param('id');
+    const userData = await c.req.json();
+    const user = await this.userService.updateUser(id, userData);
+    return user ? c.json(user) : c.json({ message: 'User not found' }, 404);
+  }
+
+  async deleteUser(c: Context) {
+    const id = c.req.param('id');
+    await this.userService.deleteUser(id);
+    return c.json({ message: 'User deleted' });
   }
 }

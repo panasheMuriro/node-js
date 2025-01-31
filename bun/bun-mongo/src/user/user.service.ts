@@ -1,24 +1,24 @@
- // Import Mongoose User model
-
-import User from "./user.model";
+import { User, type IUser } from "./user.model";
 
 export class UserService {
-  // Get all users
-  async getUsers() {
-    const users = await User.find(); // Mongoose finds all users
-    return users;
+  async createUser(userData: IUser): Promise<IUser> {
+    const user = new User(userData);
+    return await user.save();
   }
 
-  // Get user by ID
-  async getUserById(id: string) {
-    const user = await User.findById(id); // Mongoose finds a user by ID
-    return user;
+  async getUserById(id: string): Promise<IUser | null> {
+    return await User.findById(id).exec();
   }
 
-  // Create a new user
-  async createUser(name: string) {
-    const user = new User({ name }); // Create a new user instance
-    await user.save(); // Save the user to MongoDB
-    return user;
+  async getAllUsers(): Promise<IUser[]> {
+    return await User.find().exec();
+  }
+
+  async updateUser(id: string, userData: Partial<IUser>): Promise<IUser | null> {
+    return await User.findByIdAndUpdate(id, userData, { new: true }).exec();
+  }
+
+  async deleteUser(id: string): Promise<void> {
+    await User.findByIdAndDelete(id).exec();
   }
 }
